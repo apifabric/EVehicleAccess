@@ -1,0 +1,35 @@
+<o-form-layout-manager attr="Battery" mode="tab" title="BATTERY">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="BatteryTable" 
+            service="Battery" 
+            entity="Battery" 
+            title="BATTERY"
+            keys="id"
+            columns="id;capacity_kWh;weight_kg" 
+            header-actions="R;D"
+            visible-columns="id;capacity_kWh;weight_kg"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column #capacity_kWh attr="capacity_kWh" title="capacity_kWh" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+            
+            <o-table-column #weight_kg attr="weight_kg" title="weight_kg" type="real" min-decimal-digits="2" max-decimal-digits="4" min="0" max="1000000.0000" content-align="center"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

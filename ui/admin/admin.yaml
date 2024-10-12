@@ -1,0 +1,330 @@
+about:
+  date: October 12, 2024 20:52:33
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 10
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Battery:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: capacity_kWh
+      required: true
+    - name: weight_kg
+    description: Table for battery specifications.
+    info_list: Table for battery specifications.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - battery_id
+      name: VehicleList
+      resource: Vehicle
+    type: Battery
+    user_key: id
+  Charger:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: power_kW
+      required: true
+    - name: level
+    description: Table for charger specifications.
+    info_list: Table for charger specifications.
+    type: Charger
+    user_key: id
+  ChargingSession:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: charging_station_id
+      required: true
+    - name: vehicle_vin
+      required: true
+    - name: start_time
+      required: true
+    - name: end_time
+    description: Table for tracking charging sessions.
+    info_list: Table for tracking charging sessions.
+    tab_groups:
+    - direction: toone
+      fks:
+      - charging_station_id
+      name: charging_station
+      resource: ChargingStation
+    - direction: toone
+      fks:
+      - vehicle_vin
+      name: vehicle
+      resource: Vehicle
+    type: ChargingSession
+    user_key: id
+  ChargingStation:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: location
+      required: true
+    - name: capacity
+    description: Table for charging stations.
+    info_list: Table for charging stations.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - charging_station_id
+      name: ChargingSessionList
+      resource: ChargingSession
+    type: ChargingStation
+    user_key: id
+  InsurancePolicy:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: vin
+      required: true
+    - name: provider
+      required: true
+    - name: policy_number
+      required: true
+    - name: start_date
+      required: true
+    - name: end_date
+    description: Table for insurance policies on vehicles.
+    info_list: Table for insurance policies on vehicles.
+    tab_groups:
+    - direction: toone
+      fks:
+      - vin
+      name: vehicle
+      resource: Vehicle
+    type: InsurancePolicy
+    user_key: id
+  Manufacturer:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: country
+    - name: id
+    description: Table for car manufacturers.
+    info_list: Table for car manufacturers.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - manufacturer_id
+      name: ModelList
+      resource: Model
+    type: Manufacturer
+    user_key: name
+  Model:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: manufacturer_id
+      required: true
+    - name: year
+    - name: id
+    description: Table for car models.
+    info_list: Table for car models.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - model_id
+      name: VehicleList
+      resource: Vehicle
+    - direction: toone
+      fks:
+      - manufacturer_id
+      name: manufacturer
+      resource: Manufacturer
+    type: Model
+    user_key: name
+  Owner:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: contact_info
+    - name: id
+    description: Table for vehicle owners.
+    info_list: Table for vehicle owners.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - owner_id
+      name: VehicleOwnershipList
+      resource: VehicleOwnership
+    type: Owner
+    user_key: name
+  ServiceRecord:
+    attributes:
+    - label: ' description*'
+      name: description
+      search: true
+      sort: true
+    - name: service_station_id
+      required: true
+    - name: vin
+      required: true
+    - name: service_date
+      required: true
+    - name: id
+    description: Table for service records.
+    info_list: Table for service records.
+    tab_groups:
+    - direction: toone
+      fks:
+      - service_station_id
+      name: service_station
+      resource: ServiceStation
+    - direction: toone
+      fks:
+      - vin
+      name: vehicle
+      resource: Vehicle
+    type: ServiceRecord
+    user_key: description
+  ServiceStation:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: location
+    - name: id
+    description: Table for service stations.
+    info_list: Table for service stations.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - service_station_id
+      name: ServiceRecordList
+      resource: ServiceRecord
+    type: ServiceStation
+    user_key: name
+  Vehicle:
+    attributes:
+    - label: ' vin*'
+      name: vin
+      required: true
+      search: true
+      sort: true
+    - name: battery_id
+      required: true
+    - name: model_id
+      required: true
+    - name: chassis_number
+    description: Table for individual electric vehicles.
+    info_list: Table for individual electric vehicles.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - vehicle_vin
+      name: ChargingSessionList
+      resource: ChargingSession
+    - direction: tomany
+      fks:
+      - vin
+      name: InsurancePolicyList
+      resource: InsurancePolicy
+    - direction: tomany
+      fks:
+      - vin
+      name: ServiceRecordList
+      resource: ServiceRecord
+    - direction: tomany
+      fks:
+      - vin
+      name: VehicleOwnershipList
+      resource: VehicleOwnership
+    - direction: toone
+      fks:
+      - battery_id
+      name: battery
+      resource: Battery
+    - direction: toone
+      fks:
+      - model_id
+      name: model
+      resource: Model
+    type: Vehicle
+    user_key: vin
+  VehicleOwnership:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: owner_id
+      required: true
+    - name: vin
+      required: true
+    - name: purchase_date
+      required: true
+    description: Table for vehicle ownership history.
+    info_list: Table for vehicle ownership history.
+    tab_groups:
+    - direction: toone
+      fks:
+      - owner_id
+      name: owner
+      resource: Owner
+    - direction: toone
+      fks:
+      - vin
+      name: vehicle
+      resource: Vehicle
+    type: VehicleOwnership
+    user_key: id
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

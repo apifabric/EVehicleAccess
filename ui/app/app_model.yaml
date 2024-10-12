@@ -1,0 +1,500 @@
+about:
+  date: October 12, 2024 20:52:33
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+entities:
+  Battery:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: capacity_kWh
+      required: true
+      template: real
+      type: FLOAT
+    - name: weight_kg
+      template: real
+      type: FLOAT
+    description: Table for battery specifications.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table for battery specifications.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - battery_id
+      name: VehicleList
+      resource: Vehicle
+    type: Battery
+  Charger:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: power_kW
+      required: true
+      template: real
+      type: FLOAT
+    - name: level
+      template: integer
+      type: INTEGER
+    description: Table for charger specifications.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table for charger specifications.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    type: Charger
+  ChargingSession:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: charging_station_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: vehicle_vin
+      required: true
+      template: text
+      type: VARCHAR
+    - name: start_time
+      required: true
+      template: date
+      type: DATETIME
+    - name: end_time
+      template: date
+      type: DATETIME
+    description: Table for tracking charging sessions.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table for tracking charging sessions.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - charging_station_id
+      name: charging_station
+      resource: ChargingStation
+    - direction: toone
+      fks:
+      - vehicle_vin
+      name: vehicle
+      resource: Vehicle
+    type: ChargingSession
+  ChargingStation:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: location
+      required: true
+      template: text
+      type: VARCHAR
+    - name: capacity
+      template: integer
+      type: INTEGER
+    description: Table for charging stations.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table for charging stations.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - charging_station_id
+      name: ChargingSessionList
+      resource: ChargingSession
+    type: ChargingStation
+  InsurancePolicy:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: vin
+      required: true
+      template: text
+      type: VARCHAR
+    - name: provider
+      required: true
+      template: text
+      type: VARCHAR
+    - name: policy_number
+      required: true
+      template: text
+      type: VARCHAR
+    - name: start_date
+      required: true
+      template: date
+      type: DATETIME
+    - name: end_date
+      template: date
+      type: DATETIME
+    description: Table for insurance policies on vehicles.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table for insurance policies on vehicles.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - vin
+      name: vehicle
+      resource: Vehicle
+    type: InsurancePolicy
+  Manufacturer:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: country
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table for car manufacturers.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table for car manufacturers.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - manufacturer_id
+      name: ModelList
+      resource: Model
+    type: Manufacturer
+  Model:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: manufacturer_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: year
+      template: integer
+      type: INTEGER
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table for car models.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table for car models.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - model_id
+      name: VehicleList
+      resource: Vehicle
+    - direction: toone
+      fks:
+      - manufacturer_id
+      name: manufacturer
+      resource: Manufacturer
+    type: Model
+  Owner:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: contact_info
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table for vehicle owners.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table for vehicle owners.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - owner_id
+      name: VehicleOwnershipList
+      resource: VehicleOwnership
+    type: Owner
+  ServiceRecord:
+    columns:
+    - label: ' description*'
+      name: description
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: service_station_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: vin
+      required: true
+      template: text
+      type: VARCHAR
+    - name: service_date
+      required: true
+      template: date
+      type: DATETIME
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table for service records.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: description
+    home_template: home_template.html
+    info_list: Table for service records.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - service_station_id
+      name: service_station
+      resource: ServiceStation
+    - direction: toone
+      fks:
+      - vin
+      name: vehicle
+      resource: Vehicle
+    type: ServiceRecord
+  ServiceStation:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: location
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table for service stations.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table for service stations.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - service_station_id
+      name: ServiceRecordList
+      resource: ServiceRecord
+    type: ServiceStation
+  Vehicle:
+    columns:
+    - label: ' vin*'
+      name: vin
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: battery_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: model_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: chassis_number
+      template: text
+      type: VARCHAR
+    description: Table for individual electric vehicles.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: vin
+    home_template: home_template.html
+    info_list: Table for individual electric vehicles.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - vin
+    tab_groups:
+    - direction: tomany
+      fks:
+      - vehicle_vin
+      name: ChargingSessionList
+      resource: ChargingSession
+    - direction: tomany
+      fks:
+      - vin
+      name: InsurancePolicyList
+      resource: InsurancePolicy
+    - direction: tomany
+      fks:
+      - vin
+      name: ServiceRecordList
+      resource: ServiceRecord
+    - direction: tomany
+      fks:
+      - vin
+      name: VehicleOwnershipList
+      resource: VehicleOwnership
+    - direction: toone
+      fks:
+      - battery_id
+      name: battery
+      resource: Battery
+    - direction: toone
+      fks:
+      - model_id
+      name: model
+      resource: Model
+    type: Vehicle
+  VehicleOwnership:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: owner_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: vin
+      required: true
+      template: text
+      type: VARCHAR
+    - name: purchase_date
+      required: true
+      template: date
+      type: DATETIME
+    description: Table for vehicle ownership history.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table for vehicle ownership history.
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - owner_id
+      name: owner
+      resource: Owner
+    - direction: toone
+      fks:
+      - vin
+      name: vehicle
+      resource: Vehicle
+    type: VehicleOwnership
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    include_translation: false
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: false

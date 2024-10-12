@@ -1,0 +1,58 @@
+<o-form #ServiceRecordForm attr="ServiceRecord_form_insert" service="ServiceRecord" entity="ServiceRecord" 
+keys="id" fxLayout="column" show-header="yes" header-actions="I"
+horizontal-scroll="yes"
+after-insert-mode="new" class="standalone-form-container" (onInsertMode)="onInsertMode()">
+
+<o-row attr="row1" layout-align="start stretch">
+  <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+    
+        <o-text-input #description attr="description" label=" description*" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+        <o-list-picker 
+        attr="service_station_id"
+        service="ServiceStation" 
+        entity="ServiceStationType"
+        fxFlex="30" 
+        query-on-init="no" 
+        query-on-bind="yes" 
+        required="yes" 
+        enabled="yes" 
+        filter="yes"
+        value-column="id" 
+        value-column-type="INTEGER"  
+        keys="id" 
+        columns="id;service_station_id;name" 
+        title="service_station_id"
+        visible-columns="id;name" 
+        separator=" - " width="680px" class="form-field">
+</o-list-picker>
+      
+        <o-list-picker 
+        attr="vin"
+        service="Vehicle" 
+        entity="VehicleType"
+        fxFlex="30" 
+        query-on-init="no" 
+        query-on-bind="yes" 
+        required="yes" 
+        enabled="yes" 
+        filter="yes"
+        value-column="vin" 
+        value-column-type="VARCHAR"  
+        keys="vin" 
+        columns="vin;vin;vin" 
+        title="vin"
+        visible-columns="vin;vin" 
+        separator=" - " width="680px" class="form-field">
+</o-list-picker>
+      
+        <o-date-input #service_date attr="service_date" type="timestamp" label="service_date" editable="no" required="yes" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+      
+        <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="no" ></o-integer-input>
+      
+</div>
+</o-row>
+
+<div layout-padding></div>
+
+</o-form>

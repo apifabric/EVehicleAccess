@@ -1,0 +1,48 @@
+<o-form-layout-manager attr="InsurancePolicy" mode="tab" title="INSURANCEPOLICY">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="InsurancePolicyTable" 
+            service="InsurancePolicy" 
+            entity="InsurancePolicy" 
+            title="INSURANCEPOLICY"
+            keys="id"
+            columns="id;vin;provider;policy_number;start_date;end_date" 
+            header-actions="R;D"
+            visible-columns="id;vin;provider;policy_number;start_date;end_date"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="vin" title="vin">
+    <o-table-cell-renderer-service attr="vin" 
+        service="Vehicle" entity="VehicleType" columns="vin;vin"
+        parent-keys="id:vin"
+        value-column="vin" keys="vin"
+        visible-columns="vin" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column #provider attr="provider" title="provider" editable="no" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-column #policy_number attr="policy_number" title="policy_number" editable="no" required="yes" content-align="left"></o-table-column>
+            
+            <o-date-input #start_date attr="start_date" type="timestamp" label="start_date" editable="no" required="yes" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+            
+            <o-date-input #end_date attr="end_date" type="timestamp" label="end_date" editable="no" required="no" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

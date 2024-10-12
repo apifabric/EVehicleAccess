@@ -1,0 +1,98 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+
+Table Battery {
+    id INTEGER [primary key]
+    capacity_kWh FLOAT 
+    weight_kg FLOAT 
+    }
+
+Table Charger {
+    id INTEGER [primary key]
+    power_kW FLOAT 
+    level INTEGER 
+    }
+
+Table ChargingSession {
+    id INTEGER [primary key]
+    vehicle_vin VARCHAR 
+    charging_station_id INTEGER 
+    start_time DATETIME 
+    end_time DATETIME 
+    }
+
+Table ChargingStation {
+    id INTEGER [primary key]
+    location VARCHAR 
+    capacity INTEGER 
+    }
+
+Table Vehicle {
+    vin VARCHAR [primary key]
+    model_id INTEGER 
+    battery_id INTEGER 
+    chassis_number VARCHAR 
+    }
+
+Table InsurancePolicy {
+    id INTEGER [primary key]
+    provider VARCHAR 
+    policy_number VARCHAR 
+    vin VARCHAR 
+    start_date DATETIME 
+    end_date DATETIME 
+    }
+
+Table Manufacturer {
+    id INTEGER [primary key]
+    name VARCHAR 
+    country VARCHAR 
+    }
+
+Table Model {
+    id INTEGER [primary key]
+    name VARCHAR 
+    manufacturer_id INTEGER 
+    year INTEGER 
+    }
+
+Table Owner {
+    id INTEGER [primary key]
+    name VARCHAR 
+    contact_info VARCHAR 
+    }
+
+Table ServiceRecord {
+    id INTEGER [primary key]
+    vin VARCHAR 
+    service_date DATETIME 
+    service_station_id INTEGER 
+    description VARCHAR 
+    }
+
+Table ServiceStation {
+    id INTEGER [primary key]
+    name VARCHAR 
+    location VARCHAR 
+    }
+
+Table VehicleOwnership {
+    id INTEGER [primary key]
+    vin VARCHAR 
+    owner_id INTEGER 
+    purchase_date DATETIME 
+    }
+
+
+
+// Relationships
+    Ref: ChargingSession.(charging_station_id) < ChargingStation.(id)
+    Ref: ChargingSession.(vehicle_vin) < Vehicle.(vin)
+    Ref: Vehicle.(battery_id) < Battery.(id)
+    Ref: Vehicle.(model_id) < Model.(id)
+    Ref: InsurancePolicy.(vin) < Vehicle.(vin)
+    Ref: Model.(manufacturer_id) < Manufacturer.(id)
+    Ref: ServiceRecord.(service_station_id) < ServiceStation.(id)
+    Ref: ServiceRecord.(vin) < Vehicle.(vin)
+    Ref: VehicleOwnership.(owner_id) < Owner.(id)
+    Ref: VehicleOwnership.(vin) < Vehicle.(vin)
